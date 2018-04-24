@@ -1,5 +1,7 @@
 var express = require('express');
-var daoBlog = require("./model/daoBlog");
+var bodyParser = require('body-parser');
+var manager = require('./routes/manager');
+var blog = require('./routes/blog');
 
 var app = express();
 var server = app.listen(3000, function () {
@@ -8,28 +10,33 @@ var server = app.listen(3000, function () {
 	console.log('server listening at http://%s:%s', host, port);
 });
 
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
+// Manager
+app.use('/manager', manager);
+
+// Blog
+app.use('/blog', blog);
+
+
+// error handler
+app.use(function(err, req, res, next) {
+  // res.status(err.status || 500);
+  res.end({code:-1, message: err.message||''});
+});
+
+// GET 请求
 app.get('/', function (req, res) {
 	res.send('Hello World!');
 });
-app.get('/blog/list', function (req, res) {
-	new daoBlog().list(function(s){
-	  res.send(s);
-	},function(e){
-	  res.send(e);
-	});
-});
-app.get('/blog/:id',function(req,res){
-	new daoBlog().getById(req.params.id,function(s){
-	  res.send(s);
-	},function(e){
-	  res.send(e);
-	});
-});
 //  POST 请求
 app.post('/', function (req, res) {
-	console.log("主页 POST 请求");
+	console.log("主页 POST 请求", req.body);
 	res.send('Hello POST');
 });
+
+
+
 
 

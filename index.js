@@ -22,8 +22,8 @@ app.use('/blog', blog);
 
 // error handler
 app.use(function(err, req, res, next) {
-  // res.status(err.status || 500);
-  res.end({code:-1, message: err.message||''});
+  console.log("++++++++  Err handler    ++++++++",err.status);
+  res.sendStatus(err.status || 500);
 });
 
 // GET 请求

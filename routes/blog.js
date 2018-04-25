@@ -3,6 +3,8 @@ var router = express.Router();
 var daoBlog = require("../model/daoBlog");
 var resHandler = require('../utils/resUtil');
 
+var DAO = new daoBlog();
+
 // invoked for any requests passed to this router
 router.use(function(req, res, next) {
   // .. some logic here .. like any other middleware
@@ -11,28 +13,58 @@ router.use(function(req, res, next) {
 });
 
 router.get('/list', function (req, res, next) {
-	new daoBlog().list(function(s){
-	  res.send(s);
+	DAO.list(function(s){
+	  res.send(resHandler.success(s));
 	},function(e){
-	  res.send(e);
+	  next(e, req, res, next);
 	});
 });
 
 router.get('/:id', function(req, res, next){
-	new daoBlog().getById(req.params.id,function(s){
-	  res.send(s);
-	},function(e){
-	  res.send(e);
-	});
+  if(typeof req.params.id === 'number'){
+    next({status:400},req,res)
+  }else{
+    DAO.getById(req.params.id,function(s){
+  	  res.send(resHandler.success(s));
+  	},function(e){
+  	  next(e, req, res, next);
+  	});  
+  }
 });
 
 router.post('/add', function(req, res, next){
   var blogItem = req.body;
-  new daoBlog().add(blogItem, function(s){
-    res.send(s);
+  DAO.add(blogItem, function(s){
+    res.send(resHandler.success(s));
   },function(e){
-    // res.send(e);
-    next(e);
+    next(e, req, res, next);
+  });
+});
+
+router.post('/update', function(req, res, next){
+  var blogItem = req.body;
+  DAO.update(blogItem, function(s){
+    res.send(resHandler.success(s));
+  },function(e){
+    next(e, req, res, next);
+  });
+});
+
+router.post('/like', function(req, res, next){
+  var paramsBody = req.body;  // {id:number,like:boolean}
+  DAO.like(paramsBody, function(s){
+    res.send(resHandler.success(s));
+  },function(e){
+    next(e, req, res, next);
+  });
+});
+
+router.post('/view', function(req, res, next){
+  var paramsBody = req.body;  // {id:number}
+  DAO.addView(paramsBody, function(s){
+    res.send(resHandler.success(s));
+  },function(e){
+    next(e, req, res, next);
   });
 });
 

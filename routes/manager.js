@@ -10,13 +10,21 @@ router.use(function(req, res, next) {
   next();
 });
 
-/* GET */
+
 router.get('/all', function(req, res, next) {
   res.send(resHandler.success(managerMock.all));
 });
 
 router.get('/:id',function(req, res, next){
   res.send(resHandler.success(managerMock.one));
+});
+
+router.post('/add',function(req, res, next){
+  res.send(resHandler.success(req.body));
+});
+
+router.post('/update',function(req, res, next){
+  res.send(resHandler.success(req.body));
 });
 
 module.exports = router;

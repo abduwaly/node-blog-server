@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var manager = require('./routes/manager');
 var blog = require('./routes/blog');
+var auth = require('./routes/auth');
 
 var app = express();
 var server = app.listen(3000, function () {
@@ -32,6 +33,9 @@ app.use('/manager', manager);
 
 // Blog
 app.use('/blog', blog);
+
+// Auth
+app.use('/auth', auth);
 
 
 // error handler

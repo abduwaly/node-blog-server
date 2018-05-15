@@ -1,3 +1,6 @@
+var easyMonitor = require('easy-monitor');
+easyMonitor('node-blog-server');
+
 var express = require('express');
 var bodyParser = require('body-parser');
 var manager = require('./routes/manager');

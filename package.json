@@ -1,6 +1,17 @@
 {
+  "name": "node-blog-server",
+  "version": "1.0.0",
+  "description": "An admin system in Node.js + Express",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "aboo",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "easy-monitor": "^2.2.2",
     "express": "^4.16.2",
     "fs": "^0.0.1-security",
     "mysql": "^2.15.0",
